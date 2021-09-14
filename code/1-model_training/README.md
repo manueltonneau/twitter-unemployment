@@ -33,10 +33,10 @@ We are now ready to start fine-tuning.
 
 ## Training command:
 
-We used a SLURM cluster to fine-tune our BERT-based models. If you train on other types of clusters, you just need to remove the SLURM-specific parameters at the top of the `train_bert_model.sbatch`.
+We used a SLURM cluster to fine-tune our BERT-based models. If you train on other types of clusters, you just need to remove the SLURM-specific parameters at the top of the `train_bert.sbatch` script.
 To train a binary BERT-based classifier on all 5 classes on the cluster, run:
 
-`$ sbatch train_bert_model.sbatch <DATA_FOLDER_NAME> <MODEL_NAME> <MODEL_TYPE> <INTRA_EPOCH_EVALUATION> <TRAIN_TEST_PATH> <VENV_PATH> <MODEL_PATH>`
+`$ sbatch train_bert.sbatch <DATA_FOLDER_NAME> <MODEL_NAME> <MODEL_TYPE> <INTRA_EPOCH_EVALUATION> <TRAIN_TEST_PATH> <VENV_PATH> <MODEL_PATH>`
 
 with:
 - <DATA_FOLDER_NAME>: the name of the folder where the train/val CSVs are stored. We included the date of the folder creation and the active learning iteration number in the folder name for clarity (e.g. `jul23_iter0`).
@@ -50,7 +50,7 @@ with:
 
 Example command: 
 
-`$ sbatch train_bert_model.sbatch jul23_iter0 bert DeepPavlov/bert-base-cased-conversational t my/train/test/path my/venv/path my/model/path`
+`$ sbatch train_bert.sbatch jul23_iter0 bert DeepPavlov/bert-base-cased-conversational t my/train/test/path my/venv/path my/model/path`
 
 ## Results:
 
@@ -73,3 +73,33 @@ For each class and training round, four CSVs are saved:
 Note that Precision/Recall/F1 are computed for a threshold of 0.5.
 
 These four CSVs are saved at: `<TRAIN_TEST_PATH>/<DATA_FOLDER_NAME>/results/<MODEL_TYPE>_<SLURM_JOB_IB>`. 
+
+## Finetuning using several seeds:
+
+Following [Dodge et al. (2020)](https://arxiv.org/pdf/2002.06305.pdf), we finetune our BERT models across 15 seeds and choose the best seed in terms of AUROC on the test set. To launch the finetuning across 15 seeds, run:
+
+`$ sh train_bert_across_seeds.sh <DATA_FOLDER_NAME> <COUNTRY_CODE> <MODEL_TYPE> <TRAIN_TEST_PATH> <VENV_PATH> <MODEL_PATH>`
+
+with:
+- <DATA_FOLDER_NAME>: the name of the folder where the train/val CSVs are stored. We included the date of the folder creation and the active learning iteration number in the folder name for clarity (e.g. `jul23_iter0`).
+- <COUNTRY_CODE>: the country for which we train the models (either US, MX or BR)
+- <MODEL_TYPE>: the type of BERT-based model used (e.g. `DeepPavlov/bert-base-cased-conversational` for Conversational BERT). This refers to the shortcut name of the model on the HuggingFace hub. The whole list can be found [here](https://huggingface.co/transformers/pretrained_models.html). 
+- <TRAIN_TEST_PATH>: the path to the folder `<DATA_FOLDER_NAME>`.
+- <VENV_PATH>: the path to the virtual environment.
+- <MODEL_PATH>: the path where the fine-tuned models will be stored.
+
+## Evaluating across seeds:
+
+When the finetuning across seeds is over, we need to determine which seed yields the best results in terms of AUROC on the test set. To do so, we wrote a script that loops over the CSVs containing the performance metrics and determines which seed is best. To execute this script, run:
+
+`$ python3 evaluation_across_seeds.py \
+    --country_code <COUNTRY_CODE> \
+    --data_folder <DATA_FOLDER_NAME> \
+    --train_test_path <TRAIN_TEST_PATH>`
+
+with:
+- <COUNTRY_CODE>: the country for which we train the models (either US, MX or BR)
+- <DATA_FOLDER_NAME>: the name of the folder where the train/val CSVs are stored. We included the date of the folder creation and the active learning iteration number in the folder name for clarity (e.g. `jul23_iter0`).
+- <TRAIN_TEST_PATH>: the path to the folder `<DATA_FOLDER_NAME>`.
+
+This script will output both the best seed for each class, as well as the AUROC on the test set that this best seed achieves. The folder names related to the best seed can then be found in `<MODEL_PATH>`. 
