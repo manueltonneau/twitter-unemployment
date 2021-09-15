@@ -39,13 +39,13 @@ To train a binary BERT-based classifier on all 5 classes on the cluster, run:
 `$ sbatch train_bert.sbatch <DATA_FOLDER_NAME> <MODEL_NAME> <MODEL_TYPE> <INTRA_EPOCH_EVALUATION> <TRAIN_TEST_PATH> <VENV_PATH> <MODEL_PATH>`
 
 with:
-- <DATA_FOLDER_NAME>: the name of the folder where the train/val CSVs are stored. We included the date of the folder creation and the active learning iteration number in the folder name for clarity (e.g. `jul23_iter0`).
-- <MODEL_NAME>: the BERT-based model architecture used. By default, it is always set to `bert`. 
-- <MODEL_TYPE>: the type of BERT-based model used (e.g. `DeepPavlov/bert-base-cased-conversational` for Conversational BERT). This refers to the shortcut name of the model on the HuggingFace hub. The whole list can be found [here](https://huggingface.co/transformers/pretrained_models.html). 
-- <INTRA_EPOCH_EVALUATION>: a string parsed as a boolean to determine whether to perform intra-epoch evaluation (10 per epoch by default). Possible values are `t` (parsed as `True`) or `f` (parsed as `False`).
-- <TRAIN_TEST_PATH>: the path to the folder `<DATA_FOLDER_NAME>`.
-- <VENV_PATH>: the path to the virtual environment.
-- <MODEL_PATH>: the path where the fine-tuned models will be stored.
+- `<DATA_FOLDER_NAME>`: the name of the folder where the train/val CSVs are stored. We included the date of the folder creation and the active learning iteration number in the folder name for clarity (e.g. `jul23_iter0`).
+- `<MODEL_NAME>`: the BERT-based model architecture used. By default, it is always set to `bert`. 
+- `<MODEL_TYPE>`: the type of BERT-based model used (e.g. `DeepPavlov/bert-base-cased-conversational` for Conversational BERT). This refers to the shortcut name of the model on the HuggingFace hub. The whole list can be found [here](https://huggingface.co/transformers/pretrained_models.html). 
+- `<INTRA_EPOCH_EVALUATION>`: a string parsed as a boolean to determine whether to perform intra-epoch evaluation (10 per epoch by default). Possible values are `t` (parsed as `True`) or `f` (parsed as `False`).
+- `<TRAIN_TEST_PATH>`: the path to the folder `<DATA_FOLDER_NAME>`.
+- `<VENV_PATH>`: the path to the virtual environment.
+- `<MODEL_PATH>`: the path where the fine-tuned models will be stored.
 
 
 Example command: 
@@ -81,25 +81,22 @@ Following [Dodge et al. (2020)](https://arxiv.org/pdf/2002.06305.pdf), we finetu
 `$ sh train_bert_across_seeds.sh <DATA_FOLDER_NAME> <COUNTRY_CODE> <MODEL_TYPE> <TRAIN_TEST_PATH> <VENV_PATH> <MODEL_PATH>`
 
 with:
-- <DATA_FOLDER_NAME>: the name of the folder where the train/val CSVs are stored. We included the date of the folder creation and the active learning iteration number in the folder name for clarity (e.g. `jul23_iter0`).
-- <COUNTRY_CODE>: the country for which we train the models (either US, MX or BR)
-- <MODEL_TYPE>: the type of BERT-based model used (e.g. `DeepPavlov/bert-base-cased-conversational` for Conversational BERT). This refers to the shortcut name of the model on the HuggingFace hub. The whole list can be found [here](https://huggingface.co/transformers/pretrained_models.html). 
-- <TRAIN_TEST_PATH>: the path to the folder `<DATA_FOLDER_NAME>`.
-- <VENV_PATH>: the path to the virtual environment.
-- <MODEL_PATH>: the path where the fine-tuned models will be stored.
+- `<DATA_FOLDER_NAME>`: the name of the folder where the train/val CSVs are stored. We included the date of the folder creation and the active learning iteration number in the folder name for clarity (e.g. `jul23_iter0`).
+- `<COUNTRY_CODE>`: the country for which we train the models (either US, MX or BR)
+- `<MODEL_TYPE>`: the type of BERT-based model used (e.g. `DeepPavlov/bert-base-cased-conversational` for Conversational BERT). This refers to the shortcut name of the model on the HuggingFace hub. The whole list can be found [here](https://huggingface.co/transformers/pretrained_models.html). 
+- `<TRAIN_TEST_PATH>`: the path to the folder `<DATA_FOLDER_NAME>`.
+- `<VENV_PATH>`: the path to the virtual environment.
+- `<MODEL_PATH>`: the path where the fine-tuned models will be stored.
 
 ## Evaluating across seeds:
 
 When the finetuning across seeds is over, we need to determine which seed yields the best results in terms of AUROC on the test set. To do so, we wrote a script that loops over the CSVs containing the performance metrics and determines which seed is best. To execute this script, run:
 
-`$ python3 evaluation_across_seeds.py \
-    --country_code <COUNTRY_CODE> \
-    --data_folder <DATA_FOLDER_NAME> \
-    --train_test_path <TRAIN_TEST_PATH>`
+`$ python3 evaluation_across_seeds.py --country_code <COUNTRY_CODE> --data_folder <DATA_FOLDER_NAME> --train_test_path <TRAIN_TEST_PATH>`
 
 with:
-- <COUNTRY_CODE>: the country for which we train the models (either US, MX or BR)
-- <DATA_FOLDER_NAME>: the name of the folder where the train/val CSVs are stored. We included the date of the folder creation and the active learning iteration number in the folder name for clarity (e.g. `jul23_iter0`).
-- <TRAIN_TEST_PATH>: the path to the folder `<DATA_FOLDER_NAME>`.
+- `<COUNTRY_CODE>`: the country for which we train the models (either US, MX or BR)
+- `<DATA_FOLDER_NAME>`: the name of the folder where the train/val CSVs are stored. We included the date of the folder creation and the active learning iteration number in the folder name for clarity (e.g. `jul23_iter0`).
+- `<TRAIN_TEST_PATH>`: the path to the folder `<DATA_FOLDER_NAME>`.
 
 This script will output both the best seed for each class, as well as the AUROC on the test set that this best seed achieves. The folder names related to the best seed can then be found in `<MODEL_PATH>`. 

@@ -116,9 +116,6 @@ if __name__ == '__main__':
         random_df = discard_already_labelled_tweets(
             path_to_labelled=path_to_labelled,
             to_label_df=random_df)
-        # random_df = discard_already_labelled_tweets_csv(
-        #     path_to_labelled=path_to_labelled,
-        #     to_label_df=random_df)
         logger.info(
             f'Dropped {str(random_count - random_df.shape[0])} tweets already labelled at iteration {iteration_number}')
     if args.calibration == 1:
@@ -166,12 +163,3 @@ if __name__ == '__main__':
     if not os.path.exists(output_path):
         os.makedirs(output_path)
     appended_sample_df.to_parquet(os.path.join(output_path, 'top_tweets.parquet'), index=False)
-
-# for label in ['is_hired_1mo', 'lost_job_1mo', 'is_unemployed', 'job_search', 'job_offer']:
-#     path_to_scores = os.path.join('/user/mt4493/twitter/twitter-labor-data/inference', country_code, inference_folder, 'calibrated_output', label)  # Prediction scores from classification
-#     scores_df = spark.read.parquet(path_to_scores)
-#     path_to_adaptive_retrieval_sets = os.path.join('/user/mt4493/twitter/twitter-labor-data/adaptive_retrieval_sets', country_code, inference_folder)  # Prediction scores from classification
-#     df = random_df.join(scores_df, on='tweet_id', how='inner')
-#     new_tweets = df.orderBy(F.desc("score")).limit(100)
-#     new_tweets = new_tweets.withColumn("class", lit(label))
-#     new_tweets.coalesce(1).write.mode('append').parquet(os.path.join(path_to_adaptive_retrieval_sets))

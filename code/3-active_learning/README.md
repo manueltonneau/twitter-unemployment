@@ -1,5 +1,10 @@
 # Active Learning
 
+In this folder, we provide code to use several active learning methods. 
+
+
+## MENTION THAT ONE NEEDS TO MODIFY THE FOLDER NAMES IN THE RELEVANT DICTS
+
 ## Preliminary:
 
 ### Commands to run only once:
