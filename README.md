@@ -1,6 +1,6 @@
 # Unemployment detection on Twitter
 
-Data and models for ACL 2022 paper "Multilingual Detection of Personal Employment Status on Twitter"
+Data and models for ACL 2022 paper ["Multilingual Detection of Personal Employment Status on Twitter"](https://aclanthology.org/2022.acl-long.453/)
 
 ## Data
 
@@ -29,7 +29,9 @@ model = AutoModel.from_pretrained("manueltonneau/bert-twitter-en-is-unemployed")
 ```
 ## Citation
 
-We will update this part soon. 
+If you find our work useful, please cite:
+
+Manuel Tonneau, Dhaval Adjodah, Joao Palotti, Nir Grinberg, and Samuel Fraiberger. 2022. Multilingual Detection of Personal Employment Status on Twitter. In Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages 6564–6587, Dublin, Ireland. Association for Computational Linguistics.
 
 
 
