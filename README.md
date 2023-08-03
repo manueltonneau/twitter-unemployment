@@ -31,7 +31,23 @@ model = AutoModel.from_pretrained("manueltonneau/bert-twitter-en-is-unemployed")
 
 If you find our work useful, please cite:
 
-Manuel Tonneau, Dhaval Adjodah, Joao Palotti, Nir Grinberg, and Samuel Fraiberger. 2022. Multilingual Detection of Personal Employment Status on Twitter. In Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages 6564–6587, Dublin, Ireland. Association for Computational Linguistics.
-
+```
+@inproceedings{tonneau-etal-2022-multilingual,
+    title = "Multilingual Detection of Personal Employment Status on {T}witter",
+    author = "Tonneau, Manuel  and
+      Adjodah, Dhaval  and
+      Palotti, Joao  and
+      Grinberg, Nir  and
+      Fraiberger, Samuel",
+    booktitle = "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+    month = may,
+    year = "2022",
+    address = "Dublin, Ireland",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2022.acl-long.453",
+    doi = "10.18653/v1/2022.acl-long.453",
+    pages = "6564--6587",
+}
+```
 
 
