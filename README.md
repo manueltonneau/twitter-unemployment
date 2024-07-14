@@ -4,28 +4,26 @@ Data and models for ACL 2022 paper ["Multilingual Detection of Personal Employme
 
 ## Data
 
-The labeled tweets can be found in the `data` folder. For each country, the relevant labels can be found in the `<COUNTRY_CODE>.csv` file. In total, the files contain respectively 8376 English, 11002 Spanish and 7156 Portuguese labeled tweets from users based in the United States (`US`), Mexico (`MX`) and Brazil (`BR`). The tweets are labeled for the 5 classes of interest in the paper, namely whether the tweet indicates that its author "was hired in the past month" (`is_hired_1mo`), "lost her job in the past month" (`lost_job_1mo`), "is looking for a job" (`job_search`), "is unemployed" (`is_unemployed`) or whether the tweet is a job offer (`job_offer`). `1` indicate positive labels while `0` indicate negative labels.
-
-Due to Twitter data sharing policies, we are not able to release the raw tweets and can only release the tweet IDs (`tweet_id`) in combination with the labels. The raw tweets can then be retrieved by using [the Twitter API](https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/get-statuses-show-id). 
+An anonymized version of the dataset can be found on :hugs: under [this link](https://huggingface.co/datasets/worldbank/twitter-labor-market).
 
 ## Models
 
-Our model have been open-sourced on the [Hugging Face model hub](https://huggingface.co/manueltonneau). Please find in the table below the model names in the hub for each language and class.
+Our model have been open-sourced on :hugs: and can be found in [this collection](https://huggingface.co/collections/worldbank/twitter-labor-market-insights-66939781e32997bdf7663e1f). Please find in the table below the model names in the hub for each language and class.
 
 | Class                            | English  | Spanish | Portuguese
 | -------------------------------- | ---------| --------| --------------------------------------------------------------------------------------------
-|  Is Unemployed | `manueltonneau/bert-twitter-en-is-unemployed` | `manueltonneau/bert-twitter-es-is-unemployed` | `manueltonneau/bert-twitter-pt-is-unemployed`
-| Lost Job | `manueltonneau/bert-twitter-en-lost-job` | `manueltonneau/bert-twitter-es-lost-job` | `manueltonneau/bert-twitter-pt-lost-job` 
-| Job Search | `manueltonneau/bert-twitter-en-job-search` | `manueltonneau/bert-twitter-es-job-search` |  `manueltonneau/bert-twitter-pt-job-search` 
-| Is Hired | `manueltonneau/bert-twitter-en-is-hired` | `manueltonneau/bert-twitter-es-is-hired` | `manueltonneau/bert-twitter-pt-is-hired` 
-| Job Offer | `manueltonneau/bert-twitter-en-job-offer` | `manueltonneau/bert-twitter-es-job-offer` | `manueltonneau/bert-twitter-pt-job-offer` 
+|  Is Unemployed | `worldbank/bert-twitter-en-is-unemployed` | `worldbank/bert-twitter-es-is-unemployed` | `worldbank/bert-twitter-pt-is-unemployed`
+| Lost Job | `worldbank/bert-twitter-en-lost-job` | `worldbank/bert-twitter-es-lost-job` | `worldbank/bert-twitter-pt-lost-job` 
+| Job Search | `worldbank/bert-twitter-en-job-search` | `worldbank/bert-twitter-es-job-search` |  `worldbank/bert-twitter-pt-job-search` 
+| Is Hired | `worldbank/bert-twitter-en-is-hired` | `worldbank/bert-twitter-es-is-hired` | `worldbank/bert-twitter-pt-is-hired` 
+| Job Offer | `worldbank/bert-twitter-en-job-offer` | `worldbank/bert-twitter-es-job-offer` | `worldbank/bert-twitter-pt-job-offer` 
 
 To use a specific model, say the English model for the class Is Unemployed, do the following:
 
 ```python
 from transformers import AutoTokenizer, AutoModel
-tokenizer = AutoTokenizer.from_pretrained("manueltonneau/bert-twitter-en-is-unemployed")
-model = AutoModel.from_pretrained("manueltonneau/bert-twitter-en-is-unemployed")
+tokenizer = AutoTokenizer.from_pretrained("worldbank/bert-twitter-en-is-unemployed")
+model = AutoModel.from_pretrained("worldbank/bert-twitter-en-is-unemployed")
 ```
 ## Citation
 
